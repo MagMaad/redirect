@@ -1,0 +1,9 @@
+port: 5000
+
+redirects:
+  - src: '/vote1'
+    dest: 'https://google.com'
+  - src: '/vote2'
+    dest: 'https://google.com'
+  - src: '/vote3'
+    dest: 'https://google.com'
