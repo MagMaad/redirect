@@ -1,15 +1,30 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
-import express from 'express';
+import express, {
+    Request,
+    Response,
+    NextFunction
+} from 'express';
 
 const config = yaml.load(fs.readFileSync('./config.yml', 'utf-8')) as any;
 
 const app = express();
 const port = config.port;
 
+app.use(log);
+
 interface Redirect {
     src: string
     dest: string
+}
+
+function log(req: Request, res: Response, next: NextFunction) {
+    const ip = req.headers['x-forwarded-for'];
+    const slug = req.originalUrl;
+
+    console.log(`${ip} requested ${slug}`);
+
+    next();
 }
 
 config.redirects.forEach((redirect: Redirect) => {
